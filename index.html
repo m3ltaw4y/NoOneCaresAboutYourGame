@@ -1,10 +1,126 @@
-﻿<!DOCTYPE html>
-<html>
+﻿<!doctype html>
+<html lang="en">
 <head>
-    <title>No One Cares About Your Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NoOneCaresAboutYourGame.com</title>
+    <style>
+        /* Full-on 90s amateur aesthetic */
+        html,body{height:100%;margin:0;padding:0;font-family:"Comic Sans MS","Trebuchet MS",Verdana,Arial,sans-serif;background: repeating-linear-gradient(45deg,#ffefd5 0 10px,#ffe4e1 10px 20px);color:#002b36}
+        .wrapper{max-width:980px;margin:18px auto;border:6px dashed #ff00ff;background:rgba(255,255,255,0.85);box-shadow:8px 8px 0 #00ffff}
+        header{padding:18px;text-align:center}
+        header h1{font-size:42px;margin:0;color:#b30000;text-shadow:2px 2px 0 #ffff00}
+        .marquee{margin-top:8px}
+        nav{background:#000;padding:8px;color:#0f0;font-weight:bold}
+        nav a{color:#0f0;margin:0 8px;text-decoration:none}
+        .columns{display:flex;gap:12px;padding:14px}
+        .col{flex:1;background:#fff;padding:12px;border:3px solid #000}
+        .screenshot{height:160px;border:6px inset #ccc;display:flex;align-items:center;justify-content:center;font-size:12px;color:#666}
+        .button{display:inline-block;padding:8px 12px;border:3px double #800080;background:linear-gradient(#fff,#ffd6ff);text-decoration:none;color:#000;font-weight:bold;margin:6px 0}
+        footer{padding:12px;text-align:center;font-size:12px;border-top:4px solid #000;background:linear-gradient(#ffffe0,#fff)}
+        .blink{animation:blink 1s step-end infinite}
+        @keyframes blink{50%{visibility:hidden}}
+        .counter{font-family:monospace;background:#000;color:#0f0;padding:6px;display:inline-block;border:2px solid #0f0}
+        /* intentionally ugly table of features */
+        table.features{width:100%;border-collapse:collapse;margin-top:8px}
+        table.features td, table.features th{border:2px solid #000;padding:6px}
+        .promo{background:linear-gradient(90deg,#ffb3b3,#ffd9b3);padding:10px;border:3px solid #ff7f50;margin:10px 0}
+        .note{font-size:11px;color:#444}
+        .ugly-list{list-style:circle inside;color:#b22222}
+        /* 90s like tiny footer icons */
+        .icons{display:flex;gap:8px;justify-content:center;margin-top:8px}
+        .icon{width:48px;height:24px;border:2px solid #000;background:#eee;display:inline-flex;align-items:center;justify-content:center;font-size:10px}
+    </style>
 </head>
 <body>
-<h1>Hello World!</h1>
-<p>No one cares...</p>
+<div class="wrapper">
+    <header>
+        <h1>NoOneCaresAboutYourGame.com</h1>
+        <div class="marquee"><marquee behavior="alternate" scrollamount="6">Because you definitely needed another indie mobile game</marquee></div>
+        <div style="margin-top:6px;">
+            <span class="counter">VISITORS: 000123</span>
+            <span style="margin-left:12px;font-size:13px;color:#900">(probably bots)</span>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#home">HOME</a> |
+        <a href="#about">ABOUT</a> |
+        <a href="#screens">SCREENSHOTS</a> |
+        <a href="#download">DOWNLOAD</a> |
+        <a href="#contact">CONTACT</a>
+    </nav>
+
+    <main style="padding:12px">
+        <section id="home" class="promo">
+            <h2 style="margin:0">Welcome!</h2>
+            <p class="note">This site exists to make a point: building alone is equal parts cathartic and ridiculous. Enjoy the authenticity.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet urna sed lorem lobortis hendrerit. Integer in lorem vitae arcu aliquet tincidunt.</p>
+            <a class="button" href="#download">Download (not really)</a>
+        </section>
+
+        <section id="about" style="margin-top:12px">
+            <h3>About the 'project'</h3>
+            <div class="columns">
+                <div class="col">
+                    <h4>What it is</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <ul class="ugly-list">
+                        <li>Made by one tired person</li>
+                        <li>Probably too many levels</li>
+                        <li>Sound effects: loud and judgmental</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <h4>Features (maybe)</h4>
+                    <table class="features">
+                        <tr><th>Feature</th><th>Status</th></tr>
+                        <tr><td>Polished UI</td><td>¯\\_(ツ)_/¯</td></tr>
+                        <tr><td>Monetization</td><td>Ads? Microtransactions?</td></tr>
+                        <tr><td>Support</td><td>lol</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="screens" style="margin-top:10px">
+            <h3>Screenshots (placeholder)</h3>
+            <div class="columns">
+                <div class="col screenshot">[screenshot 1]</div>
+                <div class="col screenshot">[screenshot 2]</div>
+                <div class="col screenshot">[screenshot 3]</div>
+            </div>
+            <p class="note">(Actual screenshots will replace the boxes above when I remember how to take a screenshot on my phone.)</p>
+        </section>
+
+        <section id="download" style="margin-top:12px">
+            <h3>Download</h3>
+            <p>Coming soon. Or never. Choose whichever version of reality motivates you today.</p>
+            <a class="button" href="#">Download for Android</a>
+            <a class="button" href="#">Download for iPhone</a>
+        </section>
+
+        <section id="contact" style="margin-top:12px">
+            <h3>Contact (I guess)</h3>
+            <p>If you absolutely must, email me:</p>
+            <p><a href="mailto:someone@noonecaresaboutyourgame.com">someone@noonecaresaboutyourgame.com</a></p>
+            <p class="note">Or don't. This is the internet.</p>
+        </section>
+
+        <section style="margin-top:14px;text-align:center">
+            <div class="icons">
+                <div class="icon">GIF</div>
+                <div class="icon">PNG</div>
+                <div class="icon">404</div>
+            </div>
+            <p class="note">Designed with <em>questionable</em> taste in the year of our lord 1999 (but also 2025).</p>
+        </section>
+    </main>
+
+    <footer>
+        <p class="blink">This site intentionally looks bad. No refunds.</p>
+        <p style="margin:6px 0">&copy; <strong>NoOneCaresAboutYourGame.com</strong> — All rights reserved-ish</p>
+    </footer>
+</div>
 </body>
 </html>
