@@ -1,124 +1,147 @@
-﻿<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
     <title>NoOneCaresAboutYourGame.com</title>
     <style>
-        /* Nastier 90s graphics aesthetic */
-        html,body{height:100%;margin:0;padding:0;font-family:"Comic Sans MS","Papyrus","Courier New",monospace;background:repeating-linear-gradient(90deg,#ff66cc 0 20px,#66ffff 20px 40px,#ffff66 40px 60px);color:#000080}
-        .wrapper{max-width:980px;margin:18px auto;border:10px groove #ff0000;background:rgba(255,255,255,0.9);box-shadow:0 0 20px 10px #00ffff inset,8px 8px 0 #ff00ff}
-        header{padding:18px;text-align:center;background:linear-gradient(180deg,#ff0000,#ffff00,#00ff00,#0000ff);border-bottom:6px ridge #ff00ff}
-        header h1{font-size:48px;margin:0;color:#00ff00;text-shadow:3px 3px 0 #000,5px 5px 5px #ff00ff}
-        .marquee{margin-top:8px;font-weight:bold;color:#fff;background:#000;border:4px double #ff0}
-        nav{background:#0000ff;padding:8px;color:#fff;font-weight:bold;border-top:6px double #ff0;border-bottom:6px double #ff0}
-        nav a{color:#ff0;margin:0 8px;text-decoration:underline;text-shadow:1px 1px 0 #000}
-        .columns{display:flex;gap:12px;padding:14px}
-        .col{flex:1;background:repeating-linear-gradient(45deg,#fff,#fff 10px,#ccc 10px,#ccc 20px);padding:12px;border:4px dotted #000}
-        .screenshot{height:160px;border:8px outset #ff00ff;display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;background:radial-gradient(circle at center,#ffffcc,#ffccff)}
-        .button{display:inline-block;padding:10px 16px;border:4px groove #800080;background:linear-gradient(#ff0,#ffa500);text-decoration:none;color:#000;font-weight:bold;margin:6px 0;box-shadow:2px 2px 0 #000}
-        footer{padding:12px;text-align:center;font-size:12px;border-top:8px ridge #ff00ff;background:repeating-linear-gradient(135deg,#00ff00 0 10px,#ff0000 10px 20px)}
-        .blink{animation:blink 1s step-end infinite;color:#fff;background:#000;padding:4px;border:3px solid #ff0}
-        @keyframes blink{50%{visibility:hidden}}
-        .counter{font-family:monospace;background:#000;color:#0f0;padding:6px;display:inline-block;border:3px ridge #0f0;text-shadow:1px 1px 2px #ff0}
-        table.features{width:100%;border-collapse:collapse;margin-top:8px;background:#ffffcc}
-        table.features td, table.features th{border:3px dashed #000;padding:6px}
-        .promo{background:linear-gradient(90deg,#ff99cc,#ffff99);padding:10px;border:5px groove #ff0000;margin:10px 0;color:#000;font-style:italic}
-        .note{font-size:11px;color:#333;font-style:italic;text-shadow:1px 1px 0 #fff}
-        .ugly-list{list-style:square inside;color:#ff0000;font-weight:bold;text-shadow:1px 1px 0 #fff}
-        .icons{display:flex;gap:8px;justify-content:center;margin-top:8px}
-        .icon{width:64px;height:32px;border:4px inset #000;background:linear-gradient(45deg,#00ffff,#ff00ff);display:inline-flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:bold;text-shadow:1px 1px 0 #000}
+        body {
+            margin: 0;
+            background: url('https://www.transparenttextures.com/patterns/argyle.png'),
+            linear-gradient(90deg, #00ff00, #ff00ff, #00ffff);
+            background-size: auto, 300% 300%;
+            animation: spinbg 20s linear infinite;
+            font-family: "Comic Sans MS", "Papyrus", "Courier New", cursive;
+            color: #ff0000;
+            text-align: center;
+        }
+
+        @keyframes spinbg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 64px;
+            color: #00ff00;
+            text-shadow: 3px 3px 0 #ff00ff, 5px 5px 10px #000;
+            background: linear-gradient(45deg, #ff0000, #ffff00, #00ff00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: rotate(-2deg); }
+            100% { transform: rotate(2deg); }
+        }
+
+        hr {
+            border: 4px dotted #00ffff;
+            margin: 20px;
+        }
+
+        marquee {
+            background: #000;
+            color: #ff0;
+            font-weight: bold;
+            font-size: 20px;
+            border: 3px dashed #ff00ff;
+            padding: 6px;
+            text-transform: uppercase;
+        }
+
+        a {
+            color: #00ffff;
+            text-decoration: blink;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #ff00ff;
+            background: yellow;
+        }
+
+        .blink {
+            animation: blinktext 0.5s steps(2, start) infinite;
+        }
+        @keyframes blinktext { to { visibility: hidden; } }
+
+        #content {
+            background: repeating-linear-gradient(
+                    45deg,
+                    #111,
+                    #222 10px,
+                    #ff00ff 10px,
+                    #00ffff 20px
+            );
+            border: 8px ridge #ffff00;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 10px 10px 0 #f00;
+        }
+
+        img {
+            border: 6px inset #00ffff;
+            width: 200px;
+            height: 150px;
+            margin: 10px;
+        }
+
+        footer {
+            background: #000;
+            color: #0f0;
+            font-size: 12px;
+            border-top: 6px groove #ff0;
+            padding: 10px;
+        }
+
+        button {
+            background: linear-gradient(#ff0, #f00);
+            border: 4px outset #0ff;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: crosshair;
+            color: #000;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: wiggle 0.2s infinite;
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-2deg); }
+            50% { transform: rotate(2deg); }
+        }
     </style>
 </head>
 <body>
-<div class="wrapper">
-    <header>
-        <h1>NoOneCaresAboutYourGame.com</h1>
-        <div class="marquee"><marquee behavior="alternate" scrollamount="8">Because you definitely needed another indie mobile game</marquee></div>
-        <div style="margin-top:6px;">
-            <span class="counter">VISITORS: 000666</span>
-            <span style="margin-left:12px;font-size:13px;color:#ff0;text-shadow:1px 1px 0 #000">(mostly pity clicks)</span>
-        </div>
-    </header>
 
-    <nav>
-        <a href="#home">HOME</a> |
-        <a href="#about">ABOUT</a> |
-        <a href="#screens">SCREENSHOTS</a> |
-        <a href="#download">DOWNLOAD</a> |
-        <a href="#contact">CONTACT</a>
-    </nav>
+<embed src="fake-midi.mid" hidden="true" autostart="true">
 
-    <main style="padding:12px">
-        <section id="home" class="promo">
-            <h2 style="margin:0;color:#800080;text-shadow:1px 1px 0 #fff">Welcome!</h2>
-            <p class="note">This site is a glitter bomb of web design choices no one asked for.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet urna sed lorem lobortis hendrerit. Integer in lorem vitae arcu aliquet tincidunt.</p>
-            <a class="button" href="#download">Download (if you dare)</a>
-        </section>
+<h1>✨ No One Cares About Your Game ✨</h1>
 
-        <section id="about" style="margin-top:12px">
-            <h3 style="color:#ff0000;text-shadow:1px 1px 0 #fff">About the 'project'</h3>
-            <div class="columns">
-                <div class="col">
-                    <h4 style="color:#0000ff">What it is</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    <ul class="ugly-list">
-                        <li>Made by one exhausted mortal</li>
-                        <li>Too many buttons, not enough fun</li>
-                        <li>Sound effects: definitely broken</li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4 style="color:#008000">Features (ish)</h4>
-                    <table class="features">
-                        <tr><th>Feature</th><th>Status</th></tr>
-                        <tr><td>Polished UI</td><td>🚽</td></tr>
-                        <tr><td>Monetization</td><td>burning that cash stack</td></tr>
-                        <tr><td>Support</td><td>¯\\_(ツ)_/¯</td></tr>
-                    </table>
-                </div>
-            </div>
-        </section>
+<marquee scrollamount="12" direction="right">Welcome to the Internet’s Worst Indie Game Page!!! 💀💀💀</marquee>
 
-        <section id="screens" style="margin-top:10px">
-            <h3 style="color:#ff00ff;text-shadow:1px 1px 0 #000">Screenshots (placeholder)</h3>
-            <div class="columns">
-                <div class="col screenshot">[screenshot 1 – pink chaos]</div>
-                <div class="col screenshot">[screenshot 2 – lime tragedy]</div>
-                <div class="col screenshot">[screenshot 3 – teal disaster]</div>
-            </div>
-            <p class="note">(Actual screenshots coming soon, or never, depending on mood.)</p>
-        </section>
+<hr>
 
-        <section id="download" style="margin-top:12px">
-            <h3 style="color:#ff0;text-shadow:1px 1px 0 #000">Download</h3>
-            <p>Coming soon. Or not. Your guess is as good as mine.</p>
-            <a class="button" href="#">Download for Android</a>
-            <a class="button" href="#">Download for iPhone</a>
-        </section>
-
-        <section id="contact" style="margin-top:12px">
-            <h3 style="color:#00ffff;text-shadow:1px 1px 0 #000">Contact (maybe)</h3>
-            <p>If you absolutely must, email me:</p>
-            <p><a href="mailto:NULLLLL">null</a></p>
-            <p class="note">Or don’t. That’s valid too.</p>
-        </section>
-
-        <section style="margin-top:14px;text-align:center">
-            <div class="icons">
-                <div class="icon">GIF</div>
-                <div class="icon">PNG</div>
-                <div class="icon">404</div>
-            </div>
-            <p class="note">Designed with deeply questionable aesthetic judgment.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p class="blink">This site intentionally hurts your eyes. No apologies.</p>
-        <p style="margin:6px 0;color:#ff0;text-shadow:1px 1px 0 #000">&copy; <strong>NoOneCaresAboutYourGame.com</strong> — All rights regrettably reserved</p>
-    </footer>
+<div id="content">
+    <p><blink><b>YOU WON’T BELIEVE THIS AWESOME GAME</b></blink></p>
+    <img src="https://placekitten.com/200/150" alt="placeholder">
+    <img src="https://placebear.com/200/150" alt="placeholder">
+    <img src="https://placebeard.it/200x150" alt="placeholder">
+    <p>Experience the *thrill* of tapping random things on your phone while wondering why you spent 3 years making it.</p>
+    <button onclick="alert('This does absolutely nothing!')">Click Me</button>
+    <p class="blink">DOWNLOAD NOW (DO NOT ACTUALLY DOWNLOAD)</p>
 </div>
+
+<hr>
+
+<marquee scrollamount="5" direction="up" height="100">💾 UNDER CONSTRUCTION 💾<br>🔥 COMING SOON 🔥<br>🎮 1999 TECHNO VIBES 🎮</marquee>
+
+<hr>
+
+<footer>
+    <p>© 1996 NoOneCaresAboutYourGame.com – Hosted via Dial-Up</p>
+    <p class="blink">Best viewed in Netscape Navigator at 800x600</p>
+</footer>
+
 </body>
 </html>
