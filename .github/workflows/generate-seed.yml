@@ -1,0 +1,51 @@
+name: Generate Daily Seed
+
+on:
+  schedule:
+    # Run at midnight UTC every day
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  generate-seed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate seeds for today + 2 days ahead
+        run: |
+          # Generate seeds for today, tomorrow, and day-after-tomorrow (UTC)
+          # This covers all timezones from UTC-12 to UTC+14
+          TODAY=$(date -u +%Y-%m-%d)
+          TOMORROW=$(date -u -d "+1 day" +%Y-%m-%d)
+          DAY_AFTER=$(date -u -d "+2 days" +%Y-%m-%d)
+
+          SALT="${{ secrets.DAILY_SEED_SALT }}"
+
+          SEED_TODAY=$(echo -n "${TODAY}${SALT}" | sha256sum | awk '{print $1}')
+          SEED_TOMORROW=$(echo -n "${TOMORROW}${SALT}" | sha256sum | awk '{print $1}')
+          SEED_DAY_AFTER=$(echo -n "${DAY_AFTER}${SALT}" | sha256sum | awk '{print $1}')
+
+          cat > seeds.json << EOF
+          {
+            "${TODAY}": "${SEED_TODAY}",
+            "${TOMORROW}": "${SEED_TOMORROW}",
+            "${DAY_AFTER}": "${SEED_DAY_AFTER}"
+          }
+          EOF
+
+          # Clean up leading whitespace from heredoc
+          sed -i 's/^          //' seeds.json
+
+      - name: Commit and push seeds.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add seeds.json
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          git commit -m "🎲 Daily seed update for $(date -u +%Y-%m-%d)"
+          git push

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Seed | NoOneCaresAboutYourGame.com</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0a0a;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.08) 0%, transparent 50%);
+            color: #00ff00;
+            font-family: "Press Start 2P", "Courier New", monospace;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Scanline overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.15) 2px,
+                rgba(0, 0, 0, 0.15) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 20px 10px;
+            width: 100%;
+        }
+
+        header h1 {
+            font-size: clamp(16px, 4vw, 28px);
+            color: #ff00ff;
+            text-shadow:
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 40px #ff00ff;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 10px;
+            color: #555;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+            to   { text-shadow: 0 0 15px #ff00ff, 0 0 30px #ff00ff, 0 0 50px #ff00ff; }
+        }
+
+        .container {
+            width: min(600px, 90vw);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            border: 2px solid #333;
+            border-radius: 4px;
+            padding: 20px;
+            background: rgba(20, 20, 20, 0.9);
+            box-shadow:
+                0 0 8px rgba(0, 255, 0, 0.1),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff00, transparent);
+            animation: scanbar 3s linear infinite;
+        }
+
+        @keyframes scanbar {
+            0%   { opacity: 0; transform: translateY(0); }
+            50%  { opacity: 1; }
+            100% { opacity: 0; transform: translateY(200px); }
+        }
+
+        .card h2 {
+            font-size: 12px;
+            color: #00ffff;
+            text-shadow: 0 0 8px #00ffff;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+
+        .seed-date {
+            font-size: 20px;
+            color: #ffff00;
+            text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .seed-hash {
+            font-size: 9px;
+            color: #00ff00;
+            background: #000;
+            border: 1px solid #1a3a1a;
+            border-radius: 2px;
+            padding: 12px;
+            word-break: break-all;
+            line-height: 1.8;
+            letter-spacing: 1px;
+            text-align: center;
+            position: relative;
+        }
+
+        .seed-hash.loading {
+            color: #333;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .label {
+            font-size: 8px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .random-numbers {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .random-num {
+            background: #000;
+            border: 1px solid #1a3a1a;
+            border-radius: 2px;
+            padding: 8px;
+            text-align: center;
+            font-size: 11px;
+            color: #00ff00;
+            transition: all 0.3s ease;
+        }
+
+        .random-num:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+        }
+
+        .random-num .idx {
+            font-size: 7px;
+            color: #444;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 8px;
+            font-size: 8px;
+        }
+
+        .status.ok { color: #00ff00; }
+        .status.error { color: #ff0000; text-shadow: 0 0 8px rgba(255, 0, 0, 0.5); }
+        .status.loading { color: #ffff00; }
+
+        .back-link {
+            text-align: center;
+            margin: 10px 0 30px;
+        }
+
+        .back-link a {
+            color: #ff00ff;
+            text-decoration: none;
+            font-size: 10px;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .back-link a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        .api-note {
+            font-size: 8px;
+            color: #444;
+            text-align: center;
+            line-height: 2;
+            padding: 10px;
+        }
+
+        .api-note code {
+            color: #00ffff;
+            background: #111;
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #00ff00;
+            font-family: inherit;
+            font-size: 8px;
+            padding: 4px 10px;
+            cursor: pointer;
+            border-radius: 2px;
+            margin-top: 8px;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            border-color: #00ff00;
+            box-shadow: 0 0 8px rgba(0, 255, 0, 0.3);
+        }
+
+        .copy-btn.copied {
+            color: #ffff00;
+            border-color: #ffff00;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎲 DAILY SEED 🎲</h1>
+    <p>NoOneCaresAboutYourGame.com</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>▸ TODAY'S SEED</h2>
+        <div class="seed-date" id="seed-date">Loading...</div>
+        <div class="label">SEED HASH</div>
+        <div class="seed-hash loading" id="seed-hash">fetching seed data...</div>
+        <div style="text-align:center;">
+            <button class="copy-btn" id="copy-btn" onclick="copySeed()">COPY HASH</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>▸ SAMPLE RANDOM SEQUENCE</h2>
+        <div class="label">First 8 numbers from this seed (0.0 – 1.0)</div>
+        <div class="random-numbers" id="random-numbers"></div>
+    </div>
+
+    <div class="status loading" id="status">⏳ LOADING...</div>
+
+    <div class="api-note">
+        Games can fetch the seed directly from<br>
+        <code>/seeds.json</code>
+    </div>
+
+    <div class="back-link">
+        <a href="/">← BACK TO MAIN SITE</a>
+    </div>
+</div>
+
+<script>
+// ===========================================================
+//  DAILY SEED SYSTEM
+//  Fetches seeds.json and provides a seeded PRNG based on
+//  the player's LOCAL date. Everyone on the same local date
+//  gets the same random sequence.
+// ===========================================================
+
+/**
+ * Mulberry32 — fast, deterministic 32-bit PRNG.
+ * Returns a function that produces the next random float [0, 1).
+ */
+function mulberry32(seed) {
+    return function() {
+        seed |= 0;
+        seed = seed + 0x6D2B79F5 | 0;
+        let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+}
+
+/**
+ * Convert a hex hash string into a 32-bit integer seed.
+ */
+function hashToSeed(hex) {
+    let hash = 0;
+    for (let i = 0; i < hex.length; i++) {
+        hash = ((hash << 5) - hash) + hex.charCodeAt(i);
+        hash |= 0;
+    }
+    return Math.abs(hash);
+}
+
+/**
+ * Get the player's local date as YYYY-MM-DD.
+ */
+function getLocalDateString() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+// ---- Global state ----
+let dailyRNG = null;
+let currentSeedHash = null;
+
+/**
+ * Initialize the daily seed system.
+ * Fetches seeds.json and sets up the PRNG for today's local date.
+ * Returns: { date, hash, rng } or throws on failure.
+ */
+async function initDailySeed() {
+    const localDate = getLocalDateString();
+
+    // Fetch seeds.json (relative to site root)
+    const resp = await fetch('/seeds.json?_=' + Date.now());
+    if (!resp.ok) throw new Error(`Failed to fetch seeds.json (HTTP ${resp.status})`);
+
+    const seeds = await resp.json();
+    const hash = seeds[localDate];
+
+    if (!hash) {
+        throw new Error(
+            `No seed available for ${localDate}. ` +
+            `Available dates: ${Object.keys(seeds).join(', ')}`
+        );
+    }
+
+    const numericSeed = hashToSeed(hash);
+    dailyRNG = mulberry32(numericSeed);
+    currentSeedHash = hash;
+
+    console.log(`[DailySeed] Date: ${localDate} | Seed: ${numericSeed} | Hash: ${hash}`);
+
+    return { date: localDate, hash, rng: dailyRNG };
+}
+
+/**
+ * Get the next random number from today's daily seed.
+ * Call initDailySeed() first!
+ * @returns {number} A float in [0, 1)
+ */
+function getDailyRandom() {
+    if (!dailyRNG) throw new Error('Daily seed not initialized. Call initDailySeed() first.');
+    return dailyRNG();
+}
+
+// ---- Copy to clipboard ----
+function copySeed() {
+    if (!currentSeedHash) return;
+    navigator.clipboard.writeText(currentSeedHash).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'COPIED!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = 'COPY HASH';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+// ---- UI Initialization ----
+(async function() {
+    const dateEl = document.getElementById('seed-date');
+    const hashEl = document.getElementById('seed-hash');
+    const numsEl = document.getElementById('random-numbers');
+    const statusEl = document.getElementById('status');
+
+    try {
+        const { date, hash, rng } = await initDailySeed();
+
+        dateEl.textContent = date;
+        hashEl.textContent = hash;
+        hashEl.classList.remove('loading');
+
+        // Show first 8 random numbers
+        for (let i = 0; i < 8; i++) {
+            const val = getDailyRandom();
+            const div = document.createElement('div');
+            div.className = 'random-num';
+            div.innerHTML = `<span class="idx">#${i + 1}</span>${val.toFixed(6)}`;
+            numsEl.appendChild(div);
+        }
+
+        statusEl.textContent = '✅ SEED LOADED — ALL PLAYERS ON THIS DATE GET THE SAME SEQUENCE';
+        statusEl.className = 'status ok';
+
+    } catch (err) {
+        dateEl.textContent = getLocalDateString();
+        hashEl.textContent = 'ERROR';
+        hashEl.classList.remove('loading');
+        statusEl.textContent = `❌ ${err.message}`;
+        statusEl.className = 'status error';
+        console.error('[DailySeed] Error:', err);
+    }
+})();
+</script>
+
+</body>
+</html>
