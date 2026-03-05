@@ -374,8 +374,8 @@
         async function initDailySeed() {
             const localDate = getLocalDateString();
 
-            // Fetch seeds.json (relative to site root)
-            const resp = await fetch('/seeds.json?_=' + Date.now());
+            // Fetch seeds.json (relative to repository root on GitHub Pages)
+            const resp = await fetch('/NoOneCaresAboutYourGame/seeds.json?_=' + Date.now());
             if (!resp.ok) throw new Error(`Failed to fetch seeds.json (HTTP ${resp.status})`);
 
             const seeds = await resp.json();
