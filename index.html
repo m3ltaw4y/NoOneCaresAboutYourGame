@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>NoOneCaresAboutYourGame.com</title>
@@ -7,7 +8,7 @@
         body {
             margin: 0;
             background: url('https://www.transparenttextures.com/patterns/argyle.png'),
-            linear-gradient(90deg, #00ff00, #ff00ff, #00ffff);
+                linear-gradient(90deg, #00ff00, #ff00ff, #00ffff);
             background-size: auto, 300% 300%;
             animation: spinbg 20s linear infinite;
             font-family: "Comic Sans MS", "Papyrus", "Courier New", cursive;
@@ -16,9 +17,17 @@
         }
 
         @keyframes spinbg {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         h1 {
@@ -32,8 +41,13 @@
         }
 
         @keyframes pulse {
-            0% { transform: rotate(-2deg); }
-            100% { transform: rotate(2deg); }
+            0% {
+                transform: rotate(-2deg);
+            }
+
+            100% {
+                transform: rotate(2deg);
+            }
         }
 
         hr {
@@ -56,6 +70,7 @@
             text-decoration: blink;
             font-weight: bold;
         }
+
         a:hover {
             color: #ff00ff;
             background: yellow;
@@ -64,16 +79,19 @@
         .blink {
             animation: blinktext 0.5s steps(2, start) infinite;
         }
-        @keyframes blinktext { to { visibility: hidden; } }
+
+        @keyframes blinktext {
+            to {
+                visibility: hidden;
+            }
+        }
 
         #content {
-            background: repeating-linear-gradient(
-                    45deg,
+            background: repeating-linear-gradient(45deg,
                     #111,
                     #222 10px,
                     #ff00ff 10px,
-                    #00ffff 20px
-            );
+                    #00ffff 20px);
             border: 8px ridge #ffff00;
             padding: 20px;
             margin: 20px;
@@ -106,46 +124,63 @@
             text-transform: uppercase;
             animation: wiggle 0.2s infinite;
         }
+
         @keyframes wiggle {
-            0%, 100% { transform: rotate(-2deg); }
-            50% { transform: rotate(2deg); }
+
+            0%,
+            100% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
         }
     </style>
 </head>
+
 <body>
 
-<embed src="midi/chiptune.mp3" hidden="true" autostart="true">
+    <embed src="midi/chiptune.mp3" hidden="true" autostart="true">
 
-<h1>✨ No One Cares About Your Game ✨</h1>
+    <h1>✨ No One Cares About Your Game ✨</h1>
 
-<marquee scrollamount="12" direction="right">💀💀💀 Welcome to the Internet’s Bes Indie Game Page!!! 💀💀💀</marquee>
+    <marquee scrollamount="12" direction="right">💀💀💀 Welcome to the Internet’s Bes Indie Game Page!!! 💀💀💀
+    </marquee>
 
-<hr>
-<button onclick="document.getElementById('bgm').play()">BIG CHUNES! 🎶</button>
+    <hr>
+    <button onclick="document.getElementById('bgm').play()">BIG CHUNES! 🎶</button>
 
-<audio id="bgm" loop>
-    <source src="midi/chiptune.mp3" type="audio/mp3">
-</audio>
-<div id="content">
-    <p><blink><b>YOU WON’T BELIEVE THIS AWESOME GAME</b></blink></p>
-    <img src="null" alt="placeholder cool af">
-    <img src="null" alt="placeholder frfr">
-    <img src="null" alt="placeholder i swear">
-    <p>Experience the *thrill* of tapping random things on your phone while wondering why you spent 3 years making it.</p>
-    <button onclick="alert('This does absolutely nothing!')">Click Me</button>
-    <p class="blink">DOWNLOAD NOW (DO NOT ACTUALLY DOWNLOAD)</p>
-</div>
+    <audio id="bgm" loop>
+        <source src="midi/chiptune.mp3" type="audio/mp3">
+    </audio>
+    <div id="content">
+        <p>
+            <blink><b>YOU WON’T BELIEVE THIS AWESOME GAME</b></blink>
+        </p>
+        <img src="null" alt="placeholder cool af">
+        <img src="null" alt="placeholder frfr">
+        <img src="null" alt="placeholder i swear">
+        <p>Experience the *thrill* of tapping random things on your phone while wondering why you spent 3 years making
+            it.</p>
+        <button onclick="alert('This does absolutely nothing!')">Click Me</button>
+        <p class="blink">DOWNLOAD NOW (DO NOT ACTUALLY DOWNLOAD)</p>
+        <br>
+        <p><a href="/daily-seed/" class="blink">🌟 CHECK OUT THE DAILY SEED PAGE! 🌟</a></p>
+    </div>
 
-<hr>
+    <hr>
 
-<marquee scrollamount="5" direction="up" height="100">💾 UNDER CONSTRUCTION 💾<br>🔥 COMING SOON 🔥<br>🎮 1999 VIBES 🎮</marquee>
+    <marquee scrollamount="5" direction="up" height="100">💾 UNDER CONSTRUCTION 💾<br>🔥 COMING SOON 🔥<br>🎮 1999 VIBES
+        🎮</marquee>
 
-<hr>
+    <hr>
 
-<footer>
-    <p>© 1996 NoOneCaresAboutYourGame.com – Hosted via Dial-Up</p>
-    <p class="blink">Best viewed in Netscape Navigator at 800x600</p>
-</footer>
+    <footer>
+        <p>© 1996 NoOneCaresAboutYourGame.com – Hosted via Dial-Up</p>
+        <p class="blink">Best viewed in Netscape Navigator at 800x600</p>
+    </footer>
 
 </body>
+
 </html>
