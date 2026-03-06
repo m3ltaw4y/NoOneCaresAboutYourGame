@@ -291,10 +291,10 @@
         <div class="card">
             <h2>▸ TODAY'S SEED</h2>
             <div class="seed-date" id="seed-date">Loading...</div>
-            <div class="label">SEED HASH</div>
+            <div class="label">SEED VALUE</div>
             <div class="seed-hash loading" id="seed-hash">fetching seed data...</div>
             <div style="text-align:center;">
-                <button class="copy-btn" id="copy-btn" onclick="copySeed()">COPY HASH</button>
+                <button class="copy-btn" id="copy-btn" onclick="copySeed()">COPY SEED</button>
             </div>
         </div>
 
@@ -340,18 +340,6 @@
         }
 
         /**
-         * Convert a hex hash string into a 32-bit integer seed.
-         */
-        function hashToSeed(hex) {
-            let hash = 0;
-            for (let i = 0; i < hex.length; i++) {
-                hash = ((hash << 5) - hash) + hex.charCodeAt(i);
-                hash |= 0;
-            }
-            return Math.abs(hash);
-        }
-
-        /**
          * Get the player's local date as YYYY-MM-DD.
          */
         function getLocalDateString() {
@@ -364,12 +352,12 @@
 
         // ---- Global state ----
         let dailyRNG = null;
-        let currentSeedHash = null;
+        let currentSeedValue = null;
 
         /**
          * Initialize the daily seed system.
          * Fetches seeds.json and sets up the PRNG for today's local date.
-         * Returns: { date, hash, rng } or throws on failure.
+         * Returns: { date, seedValue, rng } or throws on failure.
          */
         async function initDailySeed() {
             const localDate = getLocalDateString();
@@ -379,22 +367,21 @@
             if (!resp.ok) throw new Error(`Failed to fetch seeds.json (HTTP ${resp.status})`);
 
             const seeds = await resp.json();
-            const hash = seeds[localDate];
+            const seedValue = seeds[localDate];
 
-            if (!hash) {
+            if (seedValue === undefined) {
                 throw new Error(
                     `No seed available for ${localDate}. ` +
                     `Available dates: ${Object.keys(seeds).join(', ')}`
                 );
             }
 
-            const numericSeed = hashToSeed(hash);
-            dailyRNG = mulberry32(numericSeed);
-            currentSeedHash = hash;
+            dailyRNG = mulberry32(seedValue);
+            currentSeedValue = seedValue;
 
-            console.log(`[DailySeed] Date: ${localDate} | Seed: ${numericSeed} | Hash: ${hash}`);
+            console.log(`[DailySeed] Date: ${localDate} | Seed: ${seedValue}`);
 
-            return { date: localDate, hash, rng: dailyRNG };
+            return { date: localDate, seedValue, rng: dailyRNG };
         }
 
         /**
@@ -409,13 +396,13 @@
 
         // ---- Copy to clipboard ----
         function copySeed() {
-            if (!currentSeedHash) return;
-            navigator.clipboard.writeText(currentSeedHash).then(() => {
+            if (currentSeedValue === null || currentSeedValue === undefined) return;
+            navigator.clipboard.writeText(currentSeedValue.toString()).then(() => {
                 const btn = document.getElementById('copy-btn');
                 btn.textContent = 'COPIED!';
                 btn.classList.add('copied');
                 setTimeout(() => {
-                    btn.textContent = 'COPY HASH';
+                    btn.textContent = 'COPY SEED';
                     btn.classList.remove('copied');
                 }, 2000);
             });
@@ -429,10 +416,10 @@
             const statusEl = document.getElementById('status');
 
             try {
-                const { date, hash, rng } = await initDailySeed();
+                const { date, seedValue, rng } = await initDailySeed();
 
                 dateEl.textContent = date;
-                hashEl.textContent = hash;
+                hashEl.textContent = seedValue;
                 hashEl.classList.remove('loading');
 
                 // Show first 8 random numbers

@@ -26,15 +26,15 @@ jobs:
 
           SALT="${{ secrets.DAILY_SEED_SALT }}"
 
-          SEED_TODAY=$(echo -n "${TODAY}${SALT}" | sha256sum | awk '{print $1}')
-          SEED_TOMORROW=$(echo -n "${TOMORROW}${SALT}" | sha256sum | awk '{print $1}')
-          SEED_DAY_AFTER=$(echo -n "${DAY_AFTER}${SALT}" | sha256sum | awk '{print $1}')
+          SEED_TODAY=$(printf "%d" $(echo -n "${TODAY}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
+          SEED_TOMORROW=$(printf "%d" $(echo -n "${TOMORROW}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
+          SEED_DAY_AFTER=$(printf "%d" $(echo -n "${DAY_AFTER}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
 
           cat > seeds.json << EOF
           {
-            "${TODAY}": "${SEED_TODAY}",
-            "${TOMORROW}": "${SEED_TOMORROW}",
-            "${DAY_AFTER}": "${SEED_DAY_AFTER}"
+            "${TODAY}": ${SEED_TODAY},
+            "${TOMORROW}": ${SEED_TOMORROW},
+            "${DAY_AFTER}": ${SEED_DAY_AFTER}
           }
           EOF
 
