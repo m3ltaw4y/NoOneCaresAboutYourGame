@@ -16,25 +16,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Generate seeds for today + 2 days ahead
+      - name: Generate seeds to cover all timezones
         run: |
-          # Generate seeds for today, tomorrow, and day-after-tomorrow (UTC)
-          # This covers all timezones from UTC-12 to UTC+14
+          # Generate seeds for yesterday, today, and tomorrow (UTC)
+          # This correctly covers all possible local dates across the world.
+          YESTERDAY=$(date -u -d "-1 day" +%Y-%m-%d)
           TODAY=$(date -u +%Y-%m-%d)
           TOMORROW=$(date -u -d "+1 day" +%Y-%m-%d)
-          DAY_AFTER=$(date -u -d "+2 days" +%Y-%m-%d)
 
           SALT="${{ secrets.DAILY_SEED_SALT }}"
 
+          SEED_YESTERDAY=$(printf "%d" $(echo -n "${YESTERDAY}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
           SEED_TODAY=$(printf "%d" $(echo -n "${TODAY}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
           SEED_TOMORROW=$(printf "%d" $(echo -n "${TOMORROW}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
-          SEED_DAY_AFTER=$(printf "%d" $(echo -n "${DAY_AFTER}${SALT}" | sha256sum | awk '{print "0x" substr($1,1,8)}'))
 
           cat > seeds.json << EOF
           {
+            "${YESTERDAY}": ${SEED_YESTERDAY},
             "${TODAY}": ${SEED_TODAY},
-            "${TOMORROW}": ${SEED_TOMORROW},
-            "${DAY_AFTER}": ${SEED_DAY_AFTER}
+            "${TOMORROW}": ${SEED_TOMORROW}
           }
           EOF
 
